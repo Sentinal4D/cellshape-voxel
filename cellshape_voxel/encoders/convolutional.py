@@ -39,6 +39,7 @@ class ConvolutionalEncoder(nn.Module):
         self.conv2 = nn.Conv3d(
             filters[0], filters[1], 5, stride=2, padding=2, bias=bias
         )
+        self.bn2 = nn.BatchNorm3d(filters[1])
         self.relu2 = copy.deepcopy(self.relu)
         self.relu3 = copy.deepcopy(self.relu)
         if num_layers == 3:
@@ -71,9 +72,11 @@ class ConvolutionalEncoder(nn.Module):
             )
             self.embedding = nn.Linear(lin_features_len, num_features, bias=bias)
         if num_layers == 5:
+            self.bn3 = nn.BatchNorm3d(filters[2])
             self.conv4 = nn.Conv3d(
                 filters[2], filters[3], 5, stride=2, padding=2, bias=bias
             )
+            self.relu4 = copy.deepcopy(self.relu)
             self.bn4 = nn.BatchNorm3d(filters[3])
             self.conv5 = nn.Conv3d(
                 filters[3], filters[4], 3, stride=2, padding=0, bias=bias

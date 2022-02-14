@@ -146,6 +146,7 @@ class ConvolutionalDecoder(nn.Module):
 
     def forward(self, x):
         x = self.debedding(x)
+
         if self.num_layers == 5:
             x = x.view(
                 x.size(0),
@@ -157,7 +158,7 @@ class ConvolutionalDecoder(nn.Module):
             x = self.relu5(x)
             x = self.deconv5(x)
             x = self.relu4(x)
-            x = self.bn5_2(x)
+            x = self.bn5(x)
             x = self.deconv4(x)
             x = self.relu3(x)
             x = self.bn4(x)
@@ -175,12 +176,20 @@ class ConvolutionalDecoder(nn.Module):
             x = self.relu3(x)
             x = self.bn4(x)
 
+        if self.num_layers == 3:
+            x = x.view(
+                x.size(0),
+                self.filters[2],
+                ((self.input_shape[0] // 2 // 2 - 1) // 2),
+                ((self.input_shape[1] // 2 // 2 - 1) // 2),
+                ((self.input_shape[2] // 2 // 2 - 1) // 2))
+
         x = self.deconv3(x)
-        x = self.relu2_2(x)
-        x = self.bn3_2(x)
+        x = self.relu2(x)
+        x = self.bn3(x)
         x = self.deconv2(x)
-        x = self.relu1_2(x)
-        x = self.bn2_2(x)
+        x = self.relu1(x)
+        x = self.bn2(x)
         x = self.deconv1(x)
         x = self.sig(x)
 

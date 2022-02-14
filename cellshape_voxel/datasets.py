@@ -1,3 +1,4 @@
+import torch
 from torch.utils.data import Dataset
 from skimage import io
 import numpy as np
@@ -34,12 +35,12 @@ def pad_img(img, new_size):
     return padded_data
 
 
-class SingleCellDataset(Dataset):
-    def __init__(self, img_dir, transform, img_size=(128, 128, 128)):
+class VoxelDataset(Dataset):
+    def __init__(self, img_dir, transform=None, img_size=(128, 128, 128)):
 
         self.img_dir = img_dir
         self.p = Path(self.img_dir)
-        self.files = list("**/*.tif")
+        self.files = list(self.p.glob("**/*.tif"))
         self.transform = transform
         self.img_size = img_size
 
@@ -49,11 +50,13 @@ class SingleCellDataset(Dataset):
     def __getitem__(self, idx):
         # read the image
         file = self.files[idx]
-        image = io.imread(file).astype(np.float16)
+        image = io.imread(str(file)).astype(np.float16)
         image = pad_img(image, self.img_size)
 
         if self.transform:
             image = self.transform(image)
+
+        image = torch.tensor(image).type(torch.FloatTensor)
         if len(image.shape) < 5:
             image = image.unsqueeze(0)
 
