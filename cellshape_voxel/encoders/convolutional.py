@@ -28,7 +28,9 @@ class ConvolutionalEncoder(nn.Module):
         self.activations = activations
         self.batch_norm = batch_norm
 
-        self.conv1 = nn.Conv3d(1, filters[0], 5, stride=2, padding=2, bias=bias)
+        self.conv1 = nn.Conv3d(
+            1, filters[0], 5, stride=2, padding=2, bias=bias
+        )
         self.bn1 = nn.BatchNorm3d(filters[0])
         if leaky:
             self.relu = nn.LeakyReLU(negative_slope=neg_slope)
@@ -52,7 +54,9 @@ class ConvolutionalEncoder(nn.Module):
                 * ((self.input_shape[2] // 2 // 2 - 1) // 2)
                 * filters[2]
             )
-            self.embedding = nn.Linear(lin_features_len, num_features, bias=bias)
+            self.embedding = nn.Linear(
+                lin_features_len, num_features, bias=bias
+            )
         else:
             self.bn2 = nn.BatchNorm3d(filters[1])
             self.conv3 = nn.Conv3d(
@@ -70,7 +74,9 @@ class ConvolutionalEncoder(nn.Module):
                 * ((self.input_shape[2] // 2 // 2 // 2 - 1) // 2)
                 * filters[3]
             )
-            self.embedding = nn.Linear(lin_features_len, num_features, bias=bias)
+            self.embedding = nn.Linear(
+                lin_features_len, num_features, bias=bias
+            )
         if num_layers == 5:
             self.bn3 = nn.BatchNorm3d(filters[2])
             self.conv4 = nn.Conv3d(
@@ -88,7 +94,9 @@ class ConvolutionalEncoder(nn.Module):
                 * ((input_shape[2] // 2 // 2 // 2 // 2 - 1) // 2)
                 * filters[4]
             )
-            self.embedding = nn.Linear(lin_features_len, num_features, bias=bias)
+            self.embedding = nn.Linear(
+                lin_features_len, num_features, bias=bias
+            )
 
     def forward(self, x):
         x = self.conv1(x)

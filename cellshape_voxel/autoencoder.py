@@ -10,7 +10,7 @@ class AutoEncoder(nn.Module):
         self,
         num_layers_encoder=3,
         num_layers_decoder=3,
-        encoder_type='simple',
+        encoder_type="simple",
         input_shape=(64, 64, 64, 1),
         filters=(32, 64, 128, 256, 512),
         num_features=50,
@@ -19,10 +19,10 @@ class AutoEncoder(nn.Module):
         batch_norm=True,
         leaky=True,
         neg_slope=0.01,
-        resnet_depth=10
+        resnet_depth=10,
     ):
         super(AutoEncoder, self).__init__()
-        assert ((encoder_type == 'simple') or (encoder_type == 'resnet'))
+        assert (encoder_type == "simple") or (encoder_type == "resnet")
         self.num_layers_encoder = num_layers_encoder
         self.num_layers_decoder = num_layers_decoder
         self.encoder_type = encoder_type
@@ -36,32 +36,34 @@ class AutoEncoder(nn.Module):
         self.neg_slope = neg_slope
         self.resnet_depth = resnet_depth
 
-        if encoder_type == 'simple':
-            self.encoder = ConvolutionalEncoder(num_layers_encoder,
-                                                input_shape,
-                                                       filters,
-                                                       num_features,
-                                                       bias,
-                                                       activations,
-                                                       batch_norm,
-                                                       leaky,
-                                                       neg_slope)
+        if encoder_type == "simple":
+            self.encoder = ConvolutionalEncoder(
+                num_layers_encoder,
+                input_shape,
+                filters,
+                num_features,
+                bias,
+                activations,
+                batch_norm,
+                leaky,
+                neg_slope,
+            )
         else:
             self.encoder = generate_model(resnet_depth)
 
-        self.decoder = ConvolutionalDecoder(num_layers_decoder,
-                                                input_shape,
-                                                       filters,
-                                                       num_features,
-                                                       bias,
-                                                       activations,
-                                                       batch_norm,
-                                                       leaky,
-                                                       neg_slope)
+        self.decoder = ConvolutionalDecoder(
+            num_layers_decoder,
+            input_shape,
+            filters,
+            num_features,
+            bias,
+            activations,
+            batch_norm,
+            leaky,
+            neg_slope,
+        )
 
     def forward(self, x):
         features = self.encoder(x)
         output = self.decoder(features)
         return output, features
-
-

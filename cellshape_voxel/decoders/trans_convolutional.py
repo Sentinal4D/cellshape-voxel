@@ -182,7 +182,8 @@ class ConvolutionalDecoder(nn.Module):
                 self.filters[2],
                 ((self.input_shape[0] // 2 // 2 - 1) // 2),
                 ((self.input_shape[1] // 2 // 2 - 1) // 2),
-                ((self.input_shape[2] // 2 // 2 - 1) // 2))
+                ((self.input_shape[2] // 2 // 2 - 1) // 2),
+            )
 
         x = self.deconv3(x)
         x = self.relu2(x)

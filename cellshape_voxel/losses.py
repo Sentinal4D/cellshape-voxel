@@ -34,7 +34,9 @@ class DiceLoss(nn.Module):
         targets = targets.view(-1)
 
         intersection = (inputs * targets).sum()
-        dice = (2.0 * intersection + smooth) / (inputs.sum() + targets.sum() + smooth)
+        dice = (2.0 * intersection + smooth) / (
+            inputs.sum() + targets.sum() + smooth
+        )
 
         return 1 - dice
 
@@ -101,10 +103,14 @@ class FocalTverskyLoss(nn.Module):
         return FocalTversky
 
 
-def combined_loss(outputs, inputs, tar_dist, clustering_out, gamma, batch_size):
+def combined_loss(
+    outputs, inputs, tar_dist, clustering_out, gamma, batch_size
+):
     rec_loss = FocalTverskyLoss(outputs, inputs)
     clus_crit = nn.KLDivLoss(size_average=False)
-    clus_loss = gamma * clus_crit(torch.log(clustering_out), tar_dist) / batch_size
+    clus_loss = (
+        gamma * clus_crit(torch.log(clustering_out), tar_dist) / batch_size
+    )
     loss = rec_loss + clus_loss
 
     return loss, rec_loss, clus_loss
@@ -114,7 +120,9 @@ class CombinedLoss(nn.Module):
     def __init__(self):
         super(CombinedLoss, self).__init__()
 
-    def forward(self, outputs, inputs, tar_dist, clustering_out, gamma, batch_size):
+    def forward(
+        self, outputs, inputs, tar_dist, clustering_out, gamma, batch_size
+    ):
         loss, rec_loss, clus_loss = combined_loss(
             outputs, inputs, tar_dist, clustering_out, gamma, batch_size
         )
