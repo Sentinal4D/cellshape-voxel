@@ -13,12 +13,19 @@ def get_inplanes():
 
 def conv3x3x3(in_planes, out_planes, stride=1):
     return nn.Conv3d(
-        in_planes, out_planes, kernel_size=3, stride=stride, padding=1, bias=False
+        in_planes,
+        out_planes,
+        kernel_size=3,
+        stride=stride,
+        padding=1,
+        bias=False,
     )
 
 
 def conv1x1x1(in_planes, out_planes, stride=1):
-    return nn.Conv3d(in_planes, out_planes, kernel_size=1, stride=stride, bias=False)
+    return nn.Conv3d(
+        in_planes, out_planes, kernel_size=1, stride=stride, bias=False
+    )
 
 
 class BasicBlock(nn.Module):
@@ -96,7 +103,11 @@ class Bottleneck(nn.Module):
 def _downsample_basic_block(x, planes, stride):
     out = F.avg_pool3d(x, kernel_size=1, stride=stride)
     zero_pads = torch.zeros(
-        out.size(0), planes - out.size(1), out.size(2), out.size(3), out.size(4)
+        out.size(0),
+        planes - out.size(1),
+        out.size(2),
+        out.size(3),
+        out.size(4),
     )
     if isinstance(out.data, torch.cuda.FloatTensor):
         zero_pads = zero_pads.cuda()
@@ -194,7 +205,9 @@ class ResNet(nn.Module):
 
         for m in self.modules():
             if isinstance(m, nn.Conv3d):
-                nn.init.kaiming_normal_(m.weight, mode="fan_out", nonlinearity="relu")
+                nn.init.kaiming_normal_(
+                    m.weight, mode="fan_out", nonlinearity="relu"
+                )
             elif isinstance(m, nn.BatchNorm3d):
                 nn.init.constant_(m.weight, 1)
                 nn.init.constant_(m.bias, 0)
@@ -210,7 +223,9 @@ class ResNet(nn.Module):
                 )
             else:
                 downsample = nn.Sequential(
-                    conv1x1x1(self.in_planes, planes * block.expansion, stride),
+                    conv1x1x1(
+                        self.in_planes, planes * block.expansion, stride
+                    ),
                     nn.BatchNorm3d(planes * block.expansion),
                 )
 
