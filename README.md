@@ -1,4 +1,6 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![PyPI](https://img.shields.io/pypi/v/cellshape-cloud.svg)](https://pypi.org/project/cellshape-cloud)
+
 <img src="https://github.com/DeVriesMatt/cellshape-voxel/blob/main/img/cellshape_voxel.png" 
      alt="Cellshape logo by Matt De Vries">
 ___
