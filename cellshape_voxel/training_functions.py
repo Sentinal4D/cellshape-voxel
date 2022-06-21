@@ -7,7 +7,7 @@ def train(model, dataloader, num_epochs, optimizer, save_to):
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     model.to(device)
     model.train()
-    best_loss = 1000000000
+    best_loss = float("inf")
 
     for epoch in range(num_epochs):
         batch_num = 1

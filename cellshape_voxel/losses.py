@@ -59,9 +59,6 @@ class FocalLoss(nn.Module):
         return focal_loss
 
 
-# PyTorch
-
-
 class TverskyLoss(nn.Module):
     def __init__(self, weight=None, size_average=True):
         super(TverskyLoss, self).__init__()

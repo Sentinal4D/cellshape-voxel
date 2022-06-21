@@ -7,10 +7,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-def get_inplanes():
-    return [64, 128, 256, 512]
-
-
 def conv3x3x3(in_planes, out_planes, stride=1):
     return nn.Conv3d(
         in_planes,
@@ -117,35 +113,38 @@ def _downsample_basic_block(x, planes, stride):
     return out
 
 
-def generate_model(model_depth, **kwargs):
-    assert model_depth in [10, 18, 34, 50, 101, 152, 200], (
-        "Please choose a depth from: " "[10, 18, 34, 50, 101, 152, 200]"
-    )
-    model = None
-    if model_depth == 10:
-        model = ResNet(BasicBlock, [1, 1, 1, 1], get_inplanes(), **kwargs)
-    elif model_depth == 18:
-        model = ResNet(BasicBlock, [2, 2, 2, 2], get_inplanes(), **kwargs)
-    elif model_depth == 34:
-        model = ResNet(BasicBlock, [3, 4, 6, 3], get_inplanes(), **kwargs)
-    elif model_depth == 50:
-        model = ResNet(Bottleneck, [3, 4, 6, 3], get_inplanes(), **kwargs)
-    elif model_depth == 101:
-        model = ResNet(Bottleneck, [3, 4, 23, 3], get_inplanes(), **kwargs)
-    elif model_depth == 152:
-        model = ResNet(Bottleneck, [3, 8, 36, 3], get_inplanes(), **kwargs)
-    elif model_depth == 200:
-        model = ResNet(Bottleneck, [3, 24, 36, 3], get_inplanes(), **kwargs)
-
-    return model
+# def generate_model(model_depth, **kwargs):
+#     assert model_depth in [10, 18, 34, 50, 101, 152, 200], (
+#         "Please choose a depth from: " "[10, 18, 34, 50, 101, 152, 200]"
+#     )
+#     model = None
+#     if model_depth == 10:
+#         model = ResNet(BasicBlock,
+#                        [1, 1, 1, 1],
+#                        get_inplanes(),
+#                        **kwargs)
+#     elif model_depth == 18:
+#         model = ResNet(BasicBlock, [2, 2, 2, 2], get_inplanes(), **kwargs)
+#     elif model_depth == 34:
+#         model = ResNet(BasicBlock, [3, 4, 6, 3], get_inplanes(), **kwargs)
+#     elif model_depth == 50:
+#         model = ResNet(Bottleneck, [3, 4, 6, 3], get_inplanes(), **kwargs)
+#     elif model_depth == 101:
+#         model = ResNet(Bottleneck, [3, 4, 23, 3], get_inplanes(), **kwargs)
+#     elif model_depth == 152:
+#         model = ResNet(Bottleneck, [3, 8, 36, 3], get_inplanes(), **kwargs)
+#     elif model_depth == 200:
+#         model = ResNet(Bottleneck, [3, 24, 36, 3], get_inplanes(), **kwargs)
+#
+#     return model
 
 
 class ResNet(nn.Module):
     def __init__(
         self,
-        block,
-        layers,
-        block_inplanes,
+        depth,
+        block_inplanes=(64, 128, 256, 512),
+        block=Bottleneck,
         n_input_channels=1,
         no_max_pool=True,
         shortcut_type="B",
@@ -157,10 +156,30 @@ class ResNet(nn.Module):
         activations=False,
     ):
         super().__init__()
+        self.depth = depth
+        self.block_inplanes = block_inplanes
         self.num_features = num_features
         self.input_shape = input_shape
         self.filters = filters
         self.activations = activations
+
+        assert depth in [10, 18, 34, 50, 101, 152, 200], (
+            "Please choose a depth from: " "[10, 18, 34, 50, 101, 152, 200]"
+        )
+        if depth == 10:
+            layers = [1, 1, 1, 1]
+        elif depth == 18:
+            layers = [2, 2, 2, 2]
+        elif depth == 34:
+            layers = [3, 4, 6, 3]
+        elif depth == 50:
+            layers = [3, 4, 6, 3]
+        elif depth == 101:
+            layers = [3, 4, 23, 3]
+        elif depth == 152:
+            layers = [3, 8, 36, 3]
+        else:
+            layers = [3, 24, 36, 3]
 
         block_inplanes = [int(x * widen_factor) for x in block_inplanes]
 
