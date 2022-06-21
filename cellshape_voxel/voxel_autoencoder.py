@@ -1,11 +1,11 @@
 from torch import nn
 
-from .encoders.resnet import generate_model
+from .encoders.resnet import ResNet, Bottleneck
 from .encoders.convolutional import ConvolutionalEncoder
 from .decoders.trans_convolutional import ConvolutionalDecoder
 
 
-class AutoEncoder(nn.Module):
+class VoxelAutoEncoder(nn.Module):
     def __init__(
         self,
         num_layers_encoder=3,
@@ -20,8 +20,14 @@ class AutoEncoder(nn.Module):
         leaky=True,
         neg_slope=0.01,
         resnet_depth=10,
+        resnet_block_inplanes=(64, 128, 256, 512),
+        resnet_block=Bottleneck,
+        n_input_channels=1,
+        no_max_pool=True,
+        resnet_shortcut_type="B",
+        resnet_widen_factor=1.0,
     ):
-        super(AutoEncoder, self).__init__()
+        super(VoxelAutoEncoder, self).__init__()
         assert (encoder_type == "simple") or (encoder_type == "resnet")
         self.num_layers_encoder = num_layers_encoder
         self.num_layers_decoder = num_layers_decoder
@@ -49,7 +55,20 @@ class AutoEncoder(nn.Module):
                 neg_slope,
             )
         else:
-            self.encoder = generate_model(resnet_depth)
+            self.encoder = ResNet(
+                depth=resnet_depth,
+                block_inplanes=resnet_block_inplanes,
+                block=resnet_block,
+                n_input_channels=n_input_channels,
+                no_max_pool=no_max_pool,
+                shortcut_type=resnet_shortcut_type,
+                widen_factor=resnet_widen_factor,
+                input_shape=input_shape,
+                filters=filters,
+                num_features=num_features,
+                bias=bias,
+                activations=activations,
+            )
 
         self.decoder = ConvolutionalDecoder(
             num_layers_decoder,
