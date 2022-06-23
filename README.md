@@ -1,5 +1,15 @@
+[![Project Status: Active – The project has reached a stable, usable
+state and is being actively
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Python Version](https://img.shields.io/pypi/pyversions/cellshape-voxel.svg)](https://pypi.org/project/cellshape-voxel)
+[![PyPI](https://img.shields.io/pypi/v/cellshape-voxel.svg)](https://pypi.org/project/cellshape-voxel)
+[![Downloads](https://pepy.tech/badge/cellshape-voxel)](https://pepy.tech/project/cellshape-voxel)
+[![Wheel](https://img.shields.io/pypi/wheel/cellshape-voxel.svg)](https://pypi.org/project/cellshape-voxel)
+[![Development Status](https://img.shields.io/pypi/status/cellshape-voxel.svg)](https://github.com/Sentinal4D/cellshape-voxel)
+[![Tests](https://img.shields.io/github/workflow/status/Sentinal4D/cellshape-voxel/tests)](
+    https://github.com/Sentinal4D/cellshape-voxel/actions)
+[![Coverage Status](https://coveralls.io/repos/github/Sentinal4D/cellshape-voxel/badge.svg?branch=master)](https://coveralls.io/github/Sentinal4D/cellshape-voxel?branch=master)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![PyPI](https://img.shields.io/pypi/v/cellshape-cloud.svg)](https://pypi.org/project/cellshape-voxel)
 
 <img src="https://github.com/DeVriesMatt/cellshape-voxel/blob/main/img/cellshape_voxel.png" 
      alt="Cellshape logo by Matt De Vries">
