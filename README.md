@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-=======
->>>>>>> 77386d5e2a0a6437b47c042f856d1086b7d93d9e
 [![Python Version](https://img.shields.io/pypi/pyversions/cellshape-voxel.svg)](https://pypi.org/project/cellshape-voxel)
 [![PyPI](https://img.shields.io/pypi/v/cellshape-voxel.svg)](https://pypi.org/project/cellshape-voxel)
 [![Downloads](https://pepy.tech/badge/cellshape-voxel)](https://pepy.tech/project/cellshape-voxel)
