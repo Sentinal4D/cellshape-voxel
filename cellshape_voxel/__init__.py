@@ -1,3 +1,3 @@
 from voxel_autoencoder import *
 
-__version__ = "0.0.5-rc0"
+__version__ = "0.0.5"
