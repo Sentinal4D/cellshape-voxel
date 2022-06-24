@@ -23,6 +23,7 @@ pip install cellshape-voxel
 ```
 
 ## Usage
+### Basic usage
 ```python
 import torch
 from cellshape_voxel import VoxelAutoEncoder
@@ -51,6 +52,43 @@ volume = torch.randn(1, 64, 64, 64, 1)
 
 recon, features = model(volume)
 ```
+
+### To train a 3D resnet autoencoder on masks of cells or nuclei:
+```python
+import torch
+from torch.utils.data import DataLoader
+import cellshape_voxel as voxel
+
+
+input_dir = "path/to/binary/mask/files/"
+batch_size = 16
+learning_rate = 0.0001
+num_epochs = 1
+output_dir = "path/to/save/output/"
+
+model = voxel.AutoEncoder(
+    num_layers_encoder=4,
+    num_layers_decoder=4,
+    input_shape=(64, 64, 64, 1),
+    encoder_type="resnet",
+)
+
+dataset = voxel.VoxelDataset(
+    PATH_TO_DATASET, transform=None, img_size=(300, 300, 300)
+)
+
+dataloader = voxel.DataLoader(dataset, batch_size=batch_size, shuffle=True)
+
+optimizer = torch.optim.Adam(
+    model.parameters(),
+    lr=learning_rate * 16 / batch_size,
+    betas=(0.9, 0.999),
+    weight_decay=1e-6,
+)
+
+voxel.train(model, dataloader, 1, optimizer, output_dir)
+
+
 
 ## Parameters
 
