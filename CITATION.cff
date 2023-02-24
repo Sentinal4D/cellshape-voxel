@@ -5,6 +5,6 @@ authors:
   given-names: "Matt"
   orcid: "https://orcid.org/0000-0002-4098-1611"
 title: "cellshape-voxel"
-version: 1.0.0
+version: 0.0.5
 date-released: 2023-02-24
 url: "https://github.com/Sentinal4D/cellshape-voxel"
